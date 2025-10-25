@@ -1,12 +1,14 @@
 import { ReactElement, createElement, useState, useEffect, useRef } from "react";
 import { TbninputdecimalContainerProps } from "../typings/TbninputdecimalProps";
+import "./ui/TbnInputDecimal.css";
 import Big from "big.js";
 
 export function Tbninputdecimal({
     decimalAttribute,
     decimalPlaces,
     label,
-    onChangeAction
+    onChangeAction,
+    class: className
 }: TbninputdecimalContainerProps): ReactElement {
     const [displayValue, setDisplayValue] = useState("");
     const [isFocused, setIsFocused] = useState(false);
@@ -87,9 +89,9 @@ export function Tbninputdecimal({
     const hasError = validationFeedback !== undefined;
 
     return (
-        <div>
-            {label && <label>{label}</label>}
-            <div>
+        <div className={`tbn-input-decimal ${className}`}>
+            {label && <label className="tbn-input-decimal-label">{label}</label>}
+            <div className="tbn-input-decimal-input-wrapper">
                 <input
                     ref={inputRef}
                     type="text"
@@ -97,6 +99,7 @@ export function Tbninputdecimal({
                     onChange={handleChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    className="tbn-input-decimal-input"
                     disabled={decimalAttribute?.readOnly}
                 />
                 {hasError && (
