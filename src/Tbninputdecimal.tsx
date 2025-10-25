@@ -1,4 +1,4 @@
-import { ReactElement, createElement, useState, useEffect } from "react";
+import { ReactElement, createElement, useState, useEffect, useRef } from "react";
 import { TbninputdecimalContainerProps } from "../typings/TbninputdecimalProps";
 import Big from "big.js";
 
@@ -9,6 +9,7 @@ export function Tbninputdecimal({
 }: TbninputdecimalContainerProps): ReactElement {
     const [displayValue, setDisplayValue] = useState("");
     const [isFocused, setIsFocused] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     // Format number with thousands separator
     const formatNumber = (bigValue: Big | undefined): string => {
@@ -17,6 +18,13 @@ export function Tbninputdecimal({
         const [integerPart, decimalPart] = stringValue.split(".");
         const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+    };
+
+    // Calculate cursor position after formatting
+    const calculateCursorPosition = (oldValue: string, newValue: string, oldCursor: number): number => {
+        const commasBefore = (oldValue.slice(0, oldCursor).match(/,/g) || []).length;
+        const commasAfter = (newValue.slice(0, oldCursor).match(/,/g) || []).length;
+        return oldCursor + (commasAfter - commasBefore);
     };
 
     // Sync with attribute (only when not focused)
@@ -32,12 +40,21 @@ export function Tbninputdecimal({
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = e.target.value;
-        const unformatted = value.replace(/,/g, ""); // Remove commas
+        const cursorPos = e.target.selectionStart || 0;
+        const unformatted = value.replace(/,/g, "");
 
-        // Validate: numbers, decimal point only
         const regex = new RegExp(`^-?\\d*\\.?\\d{0,${decimalPlaces}}$`);
         if (regex.test(unformatted) || unformatted === "" || unformatted === ".") {
+            const oldValue = displayValue;
             setDisplayValue(value);
+
+            // Restore cursor position
+            const newCursor = calculateCursorPosition(oldValue, value, cursorPos);
+            requestAnimationFrame(() => {
+                if (inputRef.current) {
+                    inputRef.current.setSelectionRange(newCursor, newCursor);
+                }
+            });
 
             if (unformatted === "" || unformatted === ".") {
                 decimalAttribute.setValue(undefined);
@@ -62,6 +79,7 @@ export function Tbninputdecimal({
         <div>
             {label && <label>{label}</label>}
             <input
+                ref={inputRef}
                 type="text"
                 value={displayValue}
                 onChange={handleChange}
