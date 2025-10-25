@@ -4,13 +4,18 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
+import { ActionValue, EditableValue } from "mendix";
+import { Big } from "big.js";
 
 export interface TbninputdecimalContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    sampleText: string;
+    decimalAttribute: EditableValue<Big>;
+    decimalPlaces: number;
+    label: string;
+    onChangeAction?: ActionValue;
 }
 
 export interface TbninputdecimalPreviewProps {
@@ -24,5 +29,8 @@ export interface TbninputdecimalPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    sampleText: string;
+    decimalAttribute: string;
+    decimalPlaces: number | null;
+    label: string;
+    onChangeAction: {} | null;
 }
