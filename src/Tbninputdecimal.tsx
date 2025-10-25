@@ -83,18 +83,28 @@ export function Tbninputdecimal({
         }
     };
 
+    const validationFeedback = decimalAttribute?.validation;
+    const hasError = validationFeedback !== undefined;
+
     return (
         <div>
             {label && <label>{label}</label>}
-            <input
-                ref={inputRef}
-                type="text"
-                value={displayValue}
-                onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                disabled={decimalAttribute?.readOnly}
-            />
+            <div>
+                <input
+                    ref={inputRef}
+                    type="text"
+                    value={displayValue}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    disabled={decimalAttribute?.readOnly}
+                />
+                {hasError && (
+                    <div className="alert alert-danger mx-validation-message" role="alert">
+                        {validationFeedback}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
