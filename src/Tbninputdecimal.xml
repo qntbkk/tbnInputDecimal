@@ -1,16 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget id="mendix.tbninputdecimal.Tbninputdecimal" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
-        supportedPlatform="Web"
-        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+    id="mendix.tbninputdecimal.Tbninputdecimal"
+    pluginWidget="true"
+    needsEntityContext="true"
+    offlineCapable="true"
+    supportedPlatform="Web"
+    xmlns="http://www.mendix.com/widget/1.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
     <name>Tbninputdecimal</name>
     <description>My widget description</description>
-    <icon/>
+    <icon />
     <properties>
         <propertyGroup caption="General">
-            <property key="sampleText" type="string" required="false">
-                <caption>Default value</caption>
-                <description>Sample text input</description>
+            <property key="decimalAttribute" type="attribute">
+                <caption>Decimal Attribute</caption>
+                <description>The decimal attribute to bind</description>
+                <attributeTypes>
+                    <attributeType name="Decimal" />
+                </attributeTypes>
+            </property>
+            <property key="decimalPlaces" type="integer" defaultValue="2">
+                <caption>Decimal Places</caption>
+                <description>Number of decimal places (0-6)</description>
+            </property>
+            <property key="label" type="string" required="false">
+                <caption>Label</caption>
+                <description>Label for the input</description>
+            </property>
+            <property key="onChangeAction" type="action" required="false">
+                <caption>On Change Action</caption>
+                <description>Action when value changes</description>
             </property>
         </propertyGroup>
     </properties>
