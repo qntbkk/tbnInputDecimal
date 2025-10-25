@@ -1,24 +1,32 @@
-## Tbninputdecimal
-[My widget description]
+# TbnInputDecimal Widget
+
+Decimal input with thousands separator formatting for Mendix.
 
 ## Features
-[feature highlights]
+
+-   Thousands separator (1,234.56)
+-   Configurable decimal places (0-6)
+-   Cursor position preserved while typing
+-   Mendix validation support
+-   onChange action support
+
+## Installation
+
+1. Download the latest `.mpk` file from releases
+2. Copy to `[YourMendixProject]/widgets/` folder
+3. Press F4 in Studio Pro to refresh
 
 ## Usage
-[step by step instructions]
 
-## Demo project
-[link to sandbox]
+1. Place widget in a data container (Data View, List View, etc.)
+2. Configure decimal attribute
+3. Set decimal places (0-6)
+4. Optional: Add label
+5. Optional: Configure onChange action (microflow/nanoflow)
 
-## Issues, suggestions and feature requests
-[link to GitHub issues]
+## Development
 
-## Development and contribution
-
-1. Install NPM package dependencies by using: `npm install`. If you use NPM v7.x.x, which can be checked by executing `npm -v`, execute: `npm install --legacy-peer-deps`.
-1. Run `npm start` to watch for code changes. On every change:
-    - the widget will be bundled;
-    - the bundle will be included in a `dist` folder in the root directory of the project;
-    - the bundle will be included in the `deployment` and `widgets` folder of the Mendix test project.
-
-[specify contribution]
+```bash
+npm install
+npm run build
+```
