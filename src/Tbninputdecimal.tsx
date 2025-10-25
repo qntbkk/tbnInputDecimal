@@ -5,7 +5,8 @@ import Big from "big.js";
 export function Tbninputdecimal({
     decimalAttribute,
     decimalPlaces,
-    label
+    label,
+    onChangeAction
 }: TbninputdecimalContainerProps): ReactElement {
     const [displayValue, setDisplayValue] = useState("");
     const [isFocused, setIsFocused] = useState(false);
@@ -38,6 +39,14 @@ export function Tbninputdecimal({
         }
     }, [decimalAttribute.value, decimalPlaces, isFocused]);
 
+    const handleBlur = (): void => {
+        setIsFocused(false);
+    };
+
+    const handleFocus = (): void => {
+        setIsFocused(true);
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = e.target.value;
         const cursorPos = e.target.selectionStart || 0;
@@ -48,7 +57,6 @@ export function Tbninputdecimal({
             const oldValue = displayValue;
             setDisplayValue(value);
 
-            // Restore cursor position
             const newCursor = calculateCursorPosition(oldValue, value, cursorPos);
             requestAnimationFrame(() => {
                 if (inputRef.current) {
@@ -58,21 +66,21 @@ export function Tbninputdecimal({
 
             if (unformatted === "" || unformatted === ".") {
                 decimalAttribute.setValue(undefined);
+                // Execute action on change
+                if (onChangeAction?.canExecute) {
+                    onChangeAction.execute();
+                }
             } else {
                 const numValue = parseFloat(unformatted);
                 if (!isNaN(numValue)) {
                     decimalAttribute.setValue(new Big(numValue));
+                    // Execute action on change
+                    if (onChangeAction?.canExecute) {
+                        onChangeAction.execute();
+                    }
                 }
             }
         }
-    };
-
-    const handleBlur = (): void => {
-        setIsFocused(false);
-    };
-
-    const handleFocus = (): void => {
-        setIsFocused(true);
     };
 
     return (
